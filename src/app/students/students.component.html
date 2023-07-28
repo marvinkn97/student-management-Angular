@@ -1,5 +1,7 @@
 <div class="border p-3">
-  <button class="btn btn-md btn-outline-primary">Create Student</button>
+  <button class="btn btn-md btn-outline-primary" (click)="open(content)">
+    Create Student
+  </button>
 </div>
 <table class="table table-bordered table-striped">
   <thead>
@@ -34,8 +36,91 @@
       <td>
         <button class="btn btn-sm btn-danger">Delete</button>
       </td>
-        <!-- <button class="btn btn-sm btn-warning">Update</button>
-        <button class="btn btn-sm btn-danger">Delete</button> -->
     </tr>
   </tbody>
 </table>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create New Student</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="fname"
+          placeholder="firstname"
+          formControlName="firstname"
+        />
+        <label for="fname">Firstname</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="lname"
+          placeholder="lastname"
+          formControlName="lastname"
+        />
+        <label for="lname">Lastname</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="course"
+          placeholder="Course"
+          formControlName="course"
+        />
+        <label for="course">Course</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          placeholder="Email"
+          formControlName="email"
+        />
+        <label for="email">Email</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="phone"
+          placeholder="Phone"
+          formControlName="phone"
+        />
+        <label for="phone">Phone Number</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="address"
+          placeholder="Address"
+          formControlName="address"
+        />
+        <label for="address">Address</label>
+      </div>
+      <div class="modal-footer">
+        <button (click)="modal.close('Save click')" class="btn btn-outline-primary">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
