@@ -7,20 +7,9 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [StudentsComponent, NgIf],
+  imports: [StudentsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  students: Student[] = [];
-  studentService = inject(StudentService);
-  data: boolean = false;
-
-  constructor() {
-    this.studentService.getStudents().subscribe((response) => {
-      console.log(response);
-      this.students = response;
-      this.data = true;
-    });
-  }
 }

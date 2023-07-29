@@ -7,4 +7,5 @@ export class StudentDto {
     private address: string,
     private course: string
   ) {}
+
 }

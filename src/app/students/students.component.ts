@@ -1,9 +1,9 @@
 import { Student } from './../app.domain';
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, OnInit } from '@angular/core';
 import { StudentDto } from '../app.dto';
 
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -11,29 +11,45 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StudentService } from '../student.service';
 
 @Component({
   selector: 'app-students',
   standalone: true,
-  imports: [NgFor, ReactiveFormsModule, NgbModule],
+  imports: [NgFor, NgIf, ReactiveFormsModule, NgbModule],
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.css'],
 })
-export class StudentsComponent {
+export class StudentsComponent implements OnInit {
   form!: FormGroup;
-  @Input() students!: Student[];
+  students: Student[] = [];
+  data: boolean = false;
 
   private fb = inject(FormBuilder);
   private modal = inject(NgbModal);
   private httpClient = inject(HttpClient);
+  private studentService = inject(StudentService);
   constructor() {
     this.form = this.fb.group({
+      id: [''],
       firstname: [''],
       lastname: [''],
       course: [''],
       email: [''],
       phone: [''],
       address: [''],
+    });
+  }
+
+  ngOnInit(){
+    this.getStudents();
+  }
+
+  getStudents(){
+    this.studentService.getStudents().subscribe((response) => {
+      console.log(response);
+      this.students = response;
+      this.data = true;
     });
   }
 
@@ -47,11 +63,7 @@ export class StudentsComponent {
       this.form.value.course
     );
 
-    this.httpClient
-      .post('http://localhost:8080/api/students', dto)
-      .subscribe((response) => {
-        console.log(response);
-      });
+    this.studentService.createStudent(dto);
   }
 
   open(targetModal: any) {
@@ -61,12 +73,44 @@ export class StudentsComponent {
   openDetails(targetModal: any, student: Student) {
     this.modal.open(targetModal, { ariaLabelledBy: 'modal-basic-title2' });
 
-  document.getElementById('fname2')?.setAttribute('value', student?.firstName);
-  document.getElementById('lname2')?.setAttribute('value', student?.lastName);
-  document.getElementById('course2')?.setAttribute('value', student?.course);
-  document.getElementById('email2')?.setAttribute('value', student?.email);
-  document.getElementById('phone2')?.setAttribute('value', student?.phone);
-  document.getElementById('address2')?.setAttribute('value', student?.address);
+    document
+      .getElementById('fname2')
+      ?.setAttribute('value', student?.firstName);
+    document.getElementById('lname2')?.setAttribute('value', student?.lastName);
+    document.getElementById('course2')?.setAttribute('value', student?.course);
+    document.getElementById('email2')?.setAttribute('value', student?.email);
+    document.getElementById('phone2')?.setAttribute('value', student?.phone);
+    document
+      .getElementById('address2')
+      ?.setAttribute('value', student?.address);
+  }
 
+  openUpdate(targetModal: any, student: Student) {
+    this.modal.open(targetModal, { ariaLabelledBy: 'modal-basic-title3' });
+    this.form.patchValue({
+      id: student?.id,
+      firstname: student?.firstName,
+      lastname: student?.lastName,
+      course: student?.course,
+      email: student?.email,
+      phone: student?.phone,
+      address: student?.address,
+    });
+  }
+
+  update() {
+    const updateURL =
+      'http://localhost:8080/api/students/' + this.form.value.id;
+
+    const dto = new StudentDto(
+      this.form.value.firstname,
+      this.form.value.lastname,
+      this.form.value.email,
+      this.form.value.phone,
+      this.form.value.address,
+      this.form.value.course
+    );
+
+    this.httpClient.put(updateURL, dto);
   }
 }

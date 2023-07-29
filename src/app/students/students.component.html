@@ -1,214 +1,325 @@
-<div class="border p-3">
-  <button class="btn btn-md btn-outline-primary" (click)="open(content)">
-    Create Student
-  </button>
-</div>
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Firstname</th>
-      <th scope="col">Lastname</th>
-      <th scope="col">Course</th>
-      <th scope="col">Email</th>
-      <th scope="col">Mobile</th>
-      <th scope="col">Address</th>
-      <th scope="col">View</th>
-      <th scope="col">Update</th>
-      <th scope="col">Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let student of students">
-      <td>{{ student?.id }}</td>
-      <td>{{ student?.firstName }}</td>
-      <td>{{ student?.lastName }}</td>
-      <td>{{ student?.course }}</td>
-      <td>{{ student?.email }}</td>
-      <td>{{ student?.phone }}</td>
-      <td>{{ student?.address }}</td>
-      <td>
-        <button
-          class="btn btn-sm btn-primary"
-          (click)="openDetails(contentDetails, student)"
-        >
-          Details
-        </button>
-      </td>
-      <td>
-        <button class="btn btn-sm btn-warning">Update</button>
-      </td>
-      <td>
-        <button class="btn btn-sm btn-danger">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<h1 *ngIf="!data">No data available</h1>
 
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Create New Student</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
+<main  *ngIf="data">
+  <div class="border p-3">
+    <button class="btn btn-md btn-outline-primary" (click)="open(content)">
+      Create Student
+    </button>
   </div>
-  <div class="modal-body">
-    <form [formGroup]="form" (ngSubmit)="submitForm()">
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="fname"
-          placeholder="firstname"
-          formControlName="firstname"
-        />
-        <label for="fname">Firstname</label>
-      </div>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Firstname</th>
+        <th scope="col">Lastname</th>
+        <th scope="col">Course</th>
+        <th scope="col">Email</th>
+        <th scope="col">Mobile</th>
+        <th scope="col">Address</th>
+        <th scope="col">View</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student?.id }}</td>
+        <td>{{ student?.firstName }}</td>
+        <td>{{ student?.lastName }}</td>
+        <td>{{ student?.course }}</td>
+        <td>{{ student?.email }}</td>
+        <td>{{ student?.phone }}</td>
+        <td>{{ student?.address }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-primary"
+            (click)="openDetails(contentDetails, student)"
+          >
+            Details
+          </button>
+        </td>
+        <td>
+          <button
+            class="btn btn-sm btn-warning"
+            (click)="openUpdate(contentUpdate, student)"
+          >
+            Update
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-      <div class="form-floating">
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Create New Student</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="form" (ngSubmit)="submitForm()">
         <input
-          type="text"
+          type="hidden"
           class="form-control"
-          id="lname"
-          placeholder="lastname"
-          formControlName="lastname"
+          id="id"
+          formControlName="id"
         />
-        <label for="lname">Lastname</label>
-      </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="fname"
+            placeholder="firstname"
+            formControlName="firstname"
+          />
+          <label for="fname">Firstname</label>
+        </div>
 
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="course"
-          placeholder="Course"
-          formControlName="course"
-        />
-        <label for="course">Course</label>
-      </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="lname"
+            placeholder="lastname"
+            formControlName="lastname"
+          />
+          <label for="lname">Lastname</label>
+        </div>
 
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="email"
-          placeholder="Email"
-          formControlName="email"
-        />
-        <label for="email">Email</label>
-      </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="course"
+            placeholder="Course"
+            formControlName="course"
+          />
+          <label for="course">Course</label>
+        </div>
 
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="phone"
-          placeholder="Phone"
-          formControlName="phone"
-        />
-        <label for="phone">Phone Number</label>
-      </div>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="address"
-          placeholder="Address"
-          formControlName="address"
-        />
-        <label for="address">Address</label>
-      </div>
-      <div class="modal-footer">
-        <button
-          (click)="modal.close('Save click')"
-          class="btn btn-outline-primary"
-        >
-          Save
-        </button>
-      </div>
-    </form>
-  </div>
-</ng-template>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            placeholder="Email"
+            formControlName="email"
+          />
+          <label for="email">Email</label>
+        </div>
 
-<ng-template #contentDetails let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title2">Student Details</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="fname2"
-          placeholder="firstname"
-          readonly
-        />
-        <label for="fname2">Firstname</label>
-      </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="phone"
+            placeholder="Phone"
+            formControlName="phone"
+          />
+          <label for="phone">Phone Number</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="address"
+            placeholder="Address"
+            formControlName="address"
+          />
+          <label for="address">Address</label>
+        </div>
+        <div class="modal-footer">
+          <button
+            (click)="modal.close('Save click')"
+            class="btn btn-outline-primary"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
 
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="lname2"
-          placeholder="lastname"
-          readonly
-        />
-        <label for="lname2">Lastname</label>
-      </div>
+  <ng-template #contentDetails let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title2">Student Details</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="fname2"
+            placeholder="firstname"
+            readonly
+          />
+          <label for="fname2">Firstname</label>
+        </div>
 
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="course2"
-          placeholder="Course"
-          readonly
-        />
-        <label for="course2">Course</label>
-      </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="lname2"
+            placeholder="lastname"
+            readonly
+          />
+          <label for="lname2">Lastname</label>
+        </div>
 
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="email2"
-          placeholder="Email"
-          readonly
-        />
-        <label for="email2">Email</label>
-      </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="course2"
+            placeholder="Course"
+            readonly
+          />
+          <label for="course2">Course</label>
+        </div>
 
-      <div class="form-floating">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="email2"
+            placeholder="Email"
+            readonly
+          />
+          <label for="email2">Email</label>
+        </div>
+
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="phone2"
+            placeholder="Phone"
+            readonly
+          />
+          <label for="phone2">Phone Number</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="address2"
+            placeholder="Address"
+            readonly
+          />
+          <label for="address2">Address</label>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template #contentUpdate let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title3">
+        Update Student Details
+      </h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="form" (ngSubmit)="update()">
         <input
-          type="text"
+          type="hidden"
           class="form-control"
-          id="phone2"
-          placeholder="Phone"
-          readonly
+          id="id3"
+          formControlName="id"
         />
-        <label for="phone2">Phone Number</label>
-      </div>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          id="address2"
-          placeholder="Address"
-          readonly
-        />
-        <label for="address2">Address</label>
-      </div>
-    </form>
-  </div>
-</ng-template>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="fname3"
+            placeholder="firstname"
+            formControlName="firstname"
+          />
+          <label for="fname3">Firstname</label>
+        </div>
+
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="lname3"
+            placeholder="lastname"
+            formControlName="lastname"
+          />
+          <label for="lname3">Lastname</label>
+        </div>
+
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="course3"
+            placeholder="Course"
+            formControlName="course"
+          />
+          <label for="course3">Course</label>
+        </div>
+
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="email3"
+            placeholder="Email"
+            formControlName="email"
+          />
+          <label for="email3">Email</label>
+        </div>
+
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="phone3"
+            placeholder="Phone"
+            formControlName="phone"
+          />
+          <label for="phone3">Phone Number</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="address3"
+            placeholder="Address"
+            formControlName="address"
+          />
+          <label for="address3">Address</label>
+        </div>
+        <div class="modal-footer">
+          <button
+            (click)="modal.dismiss('Save click')"
+            class="btn btn-outline-primary"
+          >
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</main>
