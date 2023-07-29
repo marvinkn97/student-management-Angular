@@ -1,15 +1,10 @@
 import { Student } from './../app.domain';
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { StudentDto } from '../app.dto';
 
 import { NgFor, NgIf } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  NgForm,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentService } from '../student.service';
 
@@ -20,15 +15,18 @@ import { StudentService } from '../student.service';
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.css'],
 })
-export class StudentsComponent implements OnInit {
+export class StudentsComponent {
   form!: FormGroup;
   students: Student[] = [];
   data: boolean = false;
+
+  deleteId!: number;
 
   private fb = inject(FormBuilder);
   private modal = inject(NgbModal);
   private httpClient = inject(HttpClient);
   private studentService = inject(StudentService);
+
   constructor() {
     this.form = this.fb.group({
       id: [''],
@@ -39,13 +37,11 @@ export class StudentsComponent implements OnInit {
       phone: [''],
       address: [''],
     });
-  }
 
-  ngOnInit(){
     this.getStudents();
   }
 
-  getStudents(){
+  getStudents() {
     this.studentService.getStudents().subscribe((response) => {
       console.log(response);
       this.students = response;
@@ -112,5 +108,17 @@ export class StudentsComponent implements OnInit {
     );
 
     this.httpClient.put(updateURL, dto);
+  }
+
+  openDelete(targetModal: any, student: Student) {
+    this.modal.open(targetModal, { ariaLabelledBy: 'modal-basic-title4' });
+    this.deleteId = student.id;
+  }
+
+  delete() {
+    const deleteURL = 'http://localhost:8080/api/students/' + this.deleteId;
+    this.httpClient.delete(deleteURL).subscribe(() => {
+      this.modal.dismissAll();
+    });
   }
 }
