@@ -54,7 +54,19 @@ export class StudentsComponent {
       });
   }
 
-  open(content: any) {
-    this.modal.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  open(targetModal: any) {
+    this.modal.open(targetModal, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
+  openDetails(targetModal: any, student: Student) {
+    this.modal.open(targetModal, { ariaLabelledBy: 'modal-basic-title2' });
+
+  document.getElementById('fname2')?.setAttribute('value', student?.firstName);
+  document.getElementById('lname2')?.setAttribute('value', student?.lastName);
+  document.getElementById('course2')?.setAttribute('value', student?.course);
+  document.getElementById('email2')?.setAttribute('value', student?.email);
+  document.getElementById('phone2')?.setAttribute('value', student?.phone);
+  document.getElementById('address2')?.setAttribute('value', student?.address);
+
   }
 }

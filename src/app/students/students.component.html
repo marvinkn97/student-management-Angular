@@ -28,7 +28,12 @@
       <td>{{ student?.phone }}</td>
       <td>{{ student?.address }}</td>
       <td>
-        <button class="btn btn-sm btn-primary">Details</button>
+        <button
+          class="btn btn-sm btn-primary"
+          (click)="openDetails(contentDetails, student)"
+        >
+          Details
+        </button>
       </td>
       <td>
         <button class="btn btn-sm btn-warning">Update</button>
@@ -117,9 +122,92 @@
         <label for="address">Address</label>
       </div>
       <div class="modal-footer">
-        <button (click)="modal.close('Save click')" class="btn btn-outline-primary">
+        <button
+          (click)="modal.close('Save click')"
+          class="btn btn-outline-primary"
+        >
           Save
         </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #contentDetails let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title2">Student Details</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="fname2"
+          placeholder="firstname"
+          readonly
+        />
+        <label for="fname2">Firstname</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="lname2"
+          placeholder="lastname"
+          readonly
+        />
+        <label for="lname2">Lastname</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="course2"
+          placeholder="Course"
+          readonly
+        />
+        <label for="course2">Course</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="email2"
+          placeholder="Email"
+          readonly
+        />
+        <label for="email2">Email</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="phone2"
+          placeholder="Phone"
+          readonly
+        />
+        <label for="phone2">Phone Number</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          id="address2"
+          placeholder="Address"
+          readonly
+        />
+        <label for="address2">Address</label>
       </div>
     </form>
   </div>
